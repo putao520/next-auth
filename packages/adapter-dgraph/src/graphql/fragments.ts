@@ -1,10 +1,12 @@
 export const User = /* GraphQL */ `
   fragment UserFragment on User {
     email
+	phoneNumber
     id
     image
     name
     emailVerified
+    smsVerified
   }
 `
 

@@ -13,6 +13,8 @@ import {
 export interface NextauthUser {
   email?: string | null
   emailVerified?: Date | null
+  phoneNumber?: string | null
+  smsVerified?: Date | null
   name?: string | null
   image?: string | null
 }

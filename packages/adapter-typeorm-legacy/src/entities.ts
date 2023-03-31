@@ -32,6 +32,12 @@ export class UserEntity {
   @Column({ type: "varchar", nullable: true, transformer: transformer.date })
   emailVerified!: string | null
 
+  @Column({ type: "varchar", nullable: true, unique: true })
+  phoneNumber!: string | null
+
+  @Column({ type: "varchar", nullable: true, transformer: transformer.date })
+  smsVerified!: string | null
+
   @Column({ type: "varchar", nullable: true })
   image!: string | null
 

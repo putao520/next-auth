@@ -70,6 +70,23 @@ export function DynamoDBAdapter(
 
       return format.from<AdapterUser>(data.Items?.[0])
     },
+	async getUserByPhoneNumber(phoneNumber) {
+		const data = await client.query({
+			TableName,
+			IndexName: "GSI1",
+			KeyConditionExpression: "#gsi1pk = :gsi1pk AND #gsi1sk = :gsi1sk",
+			ExpressionAttributeNames: {
+				"#gsi1pk": "GSI1PK",
+				"#gsi1sk": "GSI1SK",
+			  },
+			ExpressionAttributeValues: {
+				":gsi1pk": `USER#${phoneNumber}`,
+				":gsi1sk": `USER#${phoneNumber}`,
+			},
+		})
+
+		return format.from<AdapterUser>(data.Items?.[0])
+	},
     async getUserByAccount({ provider, providerAccountId }) {
       const data = await client.query({
         TableName,

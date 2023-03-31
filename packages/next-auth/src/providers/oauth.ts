@@ -158,6 +158,7 @@ export interface OAuthConfig<P> extends CommonProviderOptions, PartialIssuer {
   profileUrl?: string
   encoding?: string
   allowDangerousEmailAccountLinking?: boolean
+  allowDangerousPhoneNumberAccountLinking?: boolean
 }
 
 export type OAuthUserConfig<P> = Omit<

@@ -100,6 +100,11 @@ export function MongoDBAdapter(
       if (!user) return null
       return from<AdapterUser>(user)
     },
+	async getUserByPhoneNumber(phoneNumber) {
+		const user = await (await db).U.findOne({ phoneNumber })
+		if (!user) return null
+		return from<AdapterUser>(user)
+	},
     async getUserByAccount(provider_providerAccountId) {
       const account = await (await db).A.findOne(provider_providerAccountId)
       if (!account) return null

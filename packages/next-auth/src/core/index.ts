@@ -206,9 +206,11 @@ export async function AuthHandler<
             "OAuthCallback",
             "OAuthCreateAccount",
             "EmailCreateAccount",
+			"SMSCreateAccount",
             "Callback",
             "OAuthAccountNotLinked",
             "EmailSignin",
+			"SMSSignin",
             "CredentialsSignin",
             "SessionRequired",
           ].includes(error as string)

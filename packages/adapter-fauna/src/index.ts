@@ -42,6 +42,7 @@ export const indexes = {
     "account_by_provider_and_provider_account_id"
   ),
   UserByEmail: Index("user_by_email"),
+  UserByPhoneNumber: Index("user_by_phoneNumber"),
   SessionByToken: Index("session_by_session_token"),
   VerificationTokenByIdentifierAndToken: Index(
     "verification_token_by_identifier_and_token"
@@ -116,6 +117,7 @@ export function FaunaAdapter(f: FaunaClient): Adapter {
     SessionByToken,
     SessionsByUser,
     UserByEmail,
+	UserByPhoneNumber,
     VerificationTokenByIdentifierAndToken,
   } = indexes
   const { to, from } = format
@@ -124,6 +126,7 @@ export function FaunaAdapter(f: FaunaClient): Adapter {
     createUser: async (data) => (await q(Create(Users, { data: to(data) })))!,
     getUser: async (id) => await q(Get(Ref(Users, id))),
     getUserByEmail: async (email) => await q(Get(Match(UserByEmail, email))),
+	getUserByPhoneNumber: async (phoneNumber) => await q(Get(Match(UserByPhoneNumber, phoneNumber))),
     async getUserByAccount({ provider, providerAccountId }) {
       const key = [provider, providerAccountId]
       const ref = Match(AccountByProviderAndProviderAccountId, key)

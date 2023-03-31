@@ -11,6 +11,8 @@ interface PouchdbUser {
   name?: string
   email?: string
   emailVerified?: Date | string
+  phoneNumber?: string
+  smsVerified?: Date | string
   image?: string
 }
 
@@ -36,7 +38,7 @@ export const PouchDBAdapter: Adapter<
   PouchDB.Database,
   never,
   PouchdbUser,
-  Profile & { emailVerified?: Date },
+  Profile & { emailVerified?: Date } & { smsVerified?: Date },
   PouchdbSession
 > = (pouchdb) => {
   return {
@@ -50,6 +52,15 @@ export const PouchDBAdapter: Adapter<
             name: "nextAuthUserByEmail",
             ddoc: "nextAuthUserByEmail",
             fields: ["data.email"],
+          },
+        })
+      }
+	  if (!indexes.includes("nextAuthUserByPhoneNumber")) {
+        await pouchdb.createIndex({
+          index: {
+            name: "nextAuthUserByPhoneNumber",
+            ddoc: "nextAuthUserByPhoneNumber",
+            fields: ["data.phoneNumber"],
           },
         })
       }
@@ -108,6 +119,9 @@ export const PouchDBAdapter: Adapter<
           if (typeof res.data?.emailVerified === "string") {
             res.data.emailVerified = new Date(res.data.emailVerified)
           }
+		  if (typeof res.data?.smsVerified === "string") {
+            res.data.smsVerified = new Date(res.data.smsVerified)
+          }
 
           return res?.data ?? null
         },
@@ -127,6 +141,22 @@ export const PouchDBAdapter: Adapter<
           }
           return null
         },
+
+		async getUserByPhoneNumber(phoneNumber) {
+			const res: PouchdbFindResponse = await pouchdb.find({
+			  use_index: "nextAuthUserByPhoneNumber",
+			  selector: { "data.phoneNumber": { $eq: phoneNumber } },
+			  limit: 1,
+			})
+			const userDoc: PouchdbDocument<PouchdbUser> = res.docs[0]
+			if (userDoc?.data) {
+			  const user = userDoc.data
+			  if (typeof user.smsVerified === "string")
+				user.smsVerified = new Date(user.smsVerified)
+			  return user
+			}
+			return null
+		  },
 
         async getUserByProviderAccountId(providerId, providerAccountId) {
           const res: PouchdbFindResponse = await pouchdb.find({

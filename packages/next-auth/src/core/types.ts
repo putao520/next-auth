@@ -4,6 +4,7 @@ import type {
   CredentialInput,
   ProviderType,
   EmailConfig,
+  SMSConfig,
   CredentialsConfig,
   OAuthConfig,
   AuthorizationEndpointHandler,
@@ -253,6 +254,7 @@ export interface Profile {
   sub?: string
   name?: string
   email?: string
+  phoneNumber?: string
   image?: string
 }
 
@@ -284,6 +286,9 @@ export interface CallbacksOptions<P = Profile, A = Account> {
     email?: {
       verificationRequest?: boolean
     }
+	sms?: {
+		verificationRequest?: boolean
+	}
     /** If Credentials provider is used, it contains the user credentials */
     credentials?: Record<string, CredentialInput>
   }) => Awaitable<string | boolean>
@@ -475,6 +480,7 @@ export interface DefaultSession {
   user?: {
     name?: string | null
     email?: string | null
+	phoneNumber?: string | null
     image?: string | null
   }
   expires: ISODateString
@@ -525,13 +531,14 @@ export interface SessionOptions {
    * However, you can specify your own custom string (such as CUID) to be used.
    * @default `randomUUID` or `randomBytes.toHex` depending on the Node.js version
    */
-  generateSessionToken: () => Awaitable<string>
+  generateSessionToken: () => string
 }
 
 export interface DefaultUser {
   id: string
   name?: string | null
   email?: string | null
+  phoneNumber?: string | null
   image?: string | null
 }
 
@@ -562,6 +569,8 @@ export type InternalProvider<T = ProviderType> = (T extends "oauth"
   ? OAuthConfigInternal<any>
   : T extends "email"
   ? EmailConfig
+  : T extends "sms"
+  ? SMSConfig
   : T extends "credentials"
   ? CredentialsConfig
   : never) & {
@@ -583,7 +592,9 @@ export type AuthAction =
 /** @internal */
 export interface InternalOptions<
   TProviderType = ProviderType,
-  WithVerificationToken = TProviderType extends "email" ? true : false
+  WithVerificationToken = TProviderType extends "email"? true : (
+	TProviderType extends "sms"? true : false
+  )
 > {
   providers: InternalProvider[]
   /**

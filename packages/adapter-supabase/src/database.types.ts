@@ -84,6 +84,8 @@ export interface Database {
           name: string | null
           email: string | null
           emailVerified: string | null
+		  phoneNumber: string | null
+          smsVerified: string | null
           image: string | null
           id: string
         }
@@ -98,6 +100,8 @@ export interface Database {
           name?: string | null
           email?: string | null
           emailVerified?: string | null
+		  phoneNumber?: string | null
+          smsVerified?: string | null
           image?: string | null
           id?: string
         }

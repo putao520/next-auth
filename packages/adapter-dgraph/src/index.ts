@@ -71,6 +71,20 @@ export function DgraphAdapter(
       )
       return format.from<any>(user)
     },
+	async getUserByPhoneNumber(phoneNumber) {
+		const [user] = await c.run<any>(
+		  /* GraphQL */ `
+			query ($phoneNumber: String = "") {
+			  queryUser(filter: { phoneNumber: { eq: $phoneNumber } }) {
+				...UserFragment
+			  }
+			}
+			${fragments.User}
+		  `,
+		  { phoneNumber }
+		)
+		return format.from<any>(user)
+	},
     async getUserByAccount(provider_providerAccountId) {
       const [account] = await c.run<any>(
         /* GraphQL */ `

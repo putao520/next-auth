@@ -112,6 +112,15 @@ export default function SequelizeAdapter(
 
       return userInstance?.get({ plain: true }) ?? null
     },
+	async getUserByPhoneNumber(phoneNumber) {
+		await sync()
+  
+		const userInstance = await User.findOne({
+		  where: { phoneNumber },
+		})
+  
+		return userInstance?.get({ plain: true }) ?? null
+	  },
     async getUserByAccount({ provider, providerAccountId }) {
       await sync()
 

@@ -89,6 +89,13 @@ export function TypeORMLegacyAdapter(
       if (!user) return null
       return { ...user }
     },
+	// @ts-expect-error
+    async getUserByPhoneNumber(phoneNumber) {
+		const m = await getManager(c)
+		const user = await m.findOne("UserEntity", { where: { phoneNumber } })
+		if (!user) return null
+		return { ...user }
+	},
     async getUserByAccount(provider_providerAccountId) {
       const m = await getManager(c)
       const account = await m.findOne<AdapterAccount & { user: AdapterUser }>(

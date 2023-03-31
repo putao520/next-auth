@@ -65,6 +65,7 @@ export default async function session(
           user: {
             name: decodedToken?.name,
             email: decodedToken?.email,
+			phoneNumber: decodedToken?.phoneNumber,
             image: decodedToken?.picture,
           },
           expires: newExpires.toISOString(),

@@ -241,7 +241,8 @@ export async function signIn<
 
   const isCredentials = providers[provider].type === "credentials"
   const isEmail = providers[provider].type === "email"
-  const isSupportingReturn = isCredentials || isEmail
+  const isSMS = providers[provider].type === "sms"
+  const isSupportingReturn = isCredentials || isEmail || isSMS
 
   const signInUrl = `${baseUrl}/${
     isCredentials ? "callback" : "signin"

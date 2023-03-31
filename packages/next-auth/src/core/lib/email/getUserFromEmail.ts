@@ -16,5 +16,5 @@ export default async function getAdapterUserFromEmail({
   const adapterUser = email ? await getUserByEmail(email) : null
   if (adapterUser) return adapterUser
 
-  return { id: email, email, emailVerified: null }
+  return { id: email, email, emailVerified: null, phoneNumber: "", smsVerified: null }
 }

@@ -61,6 +61,8 @@ type User
   name: String
   email: String @search(by: [hash])
   emailVerified: DateTime
+  phoneNumber: String @search(by: [hash])
+  smsVerified: DateTime
   image: String
   accounts: [Account] @hasInverse(field: "user")
   sessions: [Session] @hasInverse(field: "user")

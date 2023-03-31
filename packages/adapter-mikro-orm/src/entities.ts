@@ -40,6 +40,13 @@ export class User implements RemoveIndex<AdapterUser> {
   emailVerified: Date | null = null
 
   @Property({ type: types.string, nullable: true })
+  @Unique()
+  phoneNumber: string = ""
+
+  @Property({ type: types.datetime, nullable: true })
+  smsVerified: Date | null = null
+
+  @Property({ type: types.string, nullable: true })
   image?: string
 
   @OneToMany({

@@ -47,6 +47,7 @@ export const SupabaseAdapter = ({
         .insert({
           ...user,
           emailVerified: user.emailVerified?.toISOString(),
+          smsVerified: user.smsVerified?.toISOString(),
         })
         .select()
         .single()
@@ -79,6 +80,18 @@ export const SupabaseAdapter = ({
 
       return format<AdapterUser>(data)
     },
+	async getUserByPhoneNumber(phoneNumber) {
+		const { data, error } = await supabase
+		  .from("users")
+		  .select()
+		  .eq("phoneNumber", phoneNumber)
+		  .maybeSingle()
+  
+		if (error) throw error
+		if (!data) return null
+  
+		return format<AdapterUser>(data)
+	  },
     async getUserByAccount({ providerAccountId, provider }) {
       const { data, error } = await supabase
         .from("accounts")
@@ -97,6 +110,7 @@ export const SupabaseAdapter = ({
         .update({
           ...user,
           emailVerified: user.emailVerified?.toISOString(),
+          smsVerified: user.smsVerified?.toISOString(),
         })
         .eq("id", user.id)
         .select()

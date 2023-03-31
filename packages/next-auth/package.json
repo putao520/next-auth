@@ -87,6 +87,8 @@
     }
   },
   "devDependencies": {
+	"@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/openapi-client": "^0.4.5",
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.2",
     "@babel/plugin-proposal-optional-catch-binding": "^7.16.7",

@@ -55,14 +55,15 @@ export function runBasicTests(options: TestOptions) {
 
   let user: any = {
     email: "fill@murray.com",
+	phoneNumber: "13333330000",
     image: "https://www.fillmurray.com/460/300",
     name: "Fill Murray",
     emailVerified: new Date(),
+    smsVerified: new Date(),
   }
 
   if (process.env.CUSTOM_MODEL === "1") {
     user.role = "admin"
-    user.phone = "00000000000"
   }
 
   const session: any = {
@@ -90,6 +91,7 @@ export function runBasicTests(options: TestOptions) {
       "createUser",
       "getUser",
       "getUserByEmail",
+      "getUserByPhoneNumber",
       "getUserByAccount",
       "updateUser",
       "linkAccount",
@@ -120,6 +122,11 @@ export function runBasicTests(options: TestOptions) {
   test("getUserByEmail", async () => {
     expect(await adapter.getUserByEmail("non-existent-email")).toBeNull()
     expect(await adapter.getUserByEmail(user.email)).toEqual(user)
+  })
+
+  test("getUserByPhoneNumber", async () => {
+    expect(await adapter.getUserByPhoneNumber("non-existent-phoneNumber")).toBeNull()
+    expect(await adapter.getUserByPhoneNumber(user.phoneNumber)).toEqual(user)
   })
 
   test("createSession", async () => {

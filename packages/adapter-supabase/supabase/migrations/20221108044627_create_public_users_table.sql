@@ -7,6 +7,7 @@ create table users (
   id uuid not null primary key,
   name text,
   email text,
+  phoneNumber text,
   image text,
   constraint "users_id_fkey" foreign key ("id")
         references  next_auth.users (id) match simple
@@ -23,8 +24,8 @@ create policy "Can update own user data." on users for update using (next_auth.u
 create function public.handle_new_user() 
 returns trigger as $$
 begin
-  insert into public.users (id, name, email, image)
-  values (new.id, new.name, new.email, new.image);
+  insert into public.users (id, name, email, phoneNumber, image)
+  values (new.id, new.name, new.email, new.phoneNumber, new.image);
   return new;
 end;
 $$ language plpgsql security definer;

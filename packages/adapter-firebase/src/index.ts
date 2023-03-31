@@ -94,6 +94,17 @@ export function FirestoreAdapter({
 
       return null
     },
+	async getUserByPhoneNumber(phoneNumber) {
+	  const userQuery = query(Users, where("phoneNumber", "==", phoneNumber), limit(1))
+      const userSnapshots = await getDocs(userQuery)
+      const userSnapshot = userSnapshots.docs[0]
+
+      if (userSnapshot?.exists() && Users.converter) {
+        return Users.converter.fromFirestore(userSnapshot)
+      }
+
+      return null
+	},
     async getUserByAccount({ provider, providerAccountId }) {
       const accountQuery = query(
         Accounts,

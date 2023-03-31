@@ -14,6 +14,7 @@ export interface UpstashRedisAdapterOptions {
   accountKeyPrefix?: string
   accountByUserIdPrefix?: string
   emailKeyPrefix?: string
+  smsKeyPrefix?: string
   sessionKeyPrefix?: string
   sessionByUserIdKeyPrefix?: string
   userKeyPrefix?: string
@@ -25,6 +26,7 @@ export const defaultOptions = {
   accountKeyPrefix: "user:account:",
   accountByUserIdPrefix: "user:account:by-user-id:",
   emailKeyPrefix: "user:email:",
+  smsKeyPrefix: "user:sms:",
   sessionKeyPrefix: "user:session:",
   sessionByUserIdKeyPrefix: "user:session:by-user-id:",
   userKeyPrefix: "user:",
@@ -58,6 +60,7 @@ export function UpstashRedisAdapter(
   const accountByUserIdPrefix =
     baseKeyPrefix + mergedOptions.accountByUserIdPrefix
   const emailKeyPrefix = baseKeyPrefix + mergedOptions.emailKeyPrefix
+  const smsKeyPrefix = baseKeyPrefix + mergedOptions.smsKeyPrefix
   const sessionKeyPrefix = baseKeyPrefix + mergedOptions.sessionKeyPrefix
   const sessionByUserIdKeyPrefix =
     baseKeyPrefix + mergedOptions.sessionByUserIdKeyPrefix
@@ -103,6 +106,7 @@ export function UpstashRedisAdapter(
   ): Promise<AdapterUser> => {
     await setObjectAsJson(userKeyPrefix + id, user)
     await client.set(`${emailKeyPrefix}${user.email as string}`, id)
+    await client.set(`${smsKeyPrefix}${user.phoneNumber as string}`, id)
     return user
   }
 
@@ -127,6 +131,13 @@ export function UpstashRedisAdapter(
       }
       return await getUser(userId)
     },
+	async getUserByPhoneNumber(phoneNumber) {
+		const userId = await client.get<string>(smsKeyPrefix + phoneNumber)
+		if (!userId) {
+		  return null
+		}
+		return await getUser(userId)
+	},
     async getUserByAccount(account) {
       const dbAccount = await getAccount(
         `${account.provider}:${account.providerAccountId}`

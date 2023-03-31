@@ -28,6 +28,8 @@ export const User = {
   name: { type: DataTypes.STRING },
   email: { type: DataTypes.STRING, unique: "email" },
   emailVerified: { type: DataTypes.DATE },
+  phoneNumber: { type: DataTypes.STRING, unique: "phoneNumber" },
+  smsVerified: { type: DataTypes.DATE },
   image: { type: DataTypes.STRING },
 }
 

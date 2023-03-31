@@ -15,9 +15,12 @@ CREATE TABLE IF NOT EXISTS next_auth.users
     name text,
     email text,
     "emailVerified" timestamp with time zone,
+	phoneNumber text,
+    "smsVerified" timestamp with time zone,
     image text,
     CONSTRAINT users_pkey PRIMARY KEY (id),
     CONSTRAINT email_unique UNIQUE (email)
+    CONSTRAINT phoneNumber_unique UNIQUE (phoneNumber)
 );
 
 GRANT ALL ON TABLE next_auth.users TO postgres;

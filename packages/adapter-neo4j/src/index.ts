@@ -27,6 +27,12 @@ export function Neo4jAdapter(session: Session): Adapter {
       })
     },
 
+	async getUserByPhoneNumber(phoneNumber) {
+		return await read(`MATCH (u:User { phoneNumber: $phoneNumber }) RETURN u{.*}`, {
+			phoneNumber,
+		})
+	},
+
     async getUserByAccount(provider_providerAccountId) {
       return await read(
         `MATCH (u:User)-[:HAS_ACCOUNT]->(a:Account {
