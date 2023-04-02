@@ -10,7 +10,7 @@ import type {
 	AdapterAccount,
 	AdapterUser,
 	VerificationToken,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 
 import { format, generateUpdateExpression } from "./utils"
 

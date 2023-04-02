@@ -22,7 +22,7 @@ import type {
   AdapterAccount,
   AdapterSession,
   VerificationToken,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 
 import { getConverter } from "./converter"
 

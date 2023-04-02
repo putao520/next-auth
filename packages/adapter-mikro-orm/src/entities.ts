@@ -16,8 +16,8 @@ import type {
   AdapterAccount,
   AdapterSession,
   VerificationToken as AdapterVerificationToken,
-} from "next-auth/adapters"
-import type { ProviderType } from "next-auth/providers"
+} from "@putao520/next-auth/adapters"
+import type { ProviderType } from "@putao520/next-auth/providers"
 
 type RemoveIndex<T> = {
   // eslint-disable-next-line @typescript-eslint/ban-types

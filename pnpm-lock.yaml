@@ -59,8 +59,8 @@ importers:
       '@next-auth/supabase-adapter': workspace:*
       '@next-auth/typeorm-legacy-adapter': workspace:*
       '@prisma/client': ^3
+      '@putao520-next-auth/prisma-adapter': workspace:*
       '@putao520/next-auth': workspace:*
-      '@putao520/next-auth/prisma-adapter': workspace:*
       '@supabase/supabase-js': ^2.0.5
       '@types/jsonwebtoken': ^8.5.5
       '@types/react': ^18.0.15
@@ -82,8 +82,8 @@ importers:
       '@next-auth/supabase-adapter': link:../../packages/adapter-supabase
       '@next-auth/typeorm-legacy-adapter': link:../../packages/adapter-typeorm-legacy
       '@prisma/client': 3.15.2_prisma@3.15.2
+      '@putao520-next-auth/prisma-adapter': link:../../packages/adapter-prisma
       '@putao520/next-auth': link:../../packages/next-auth
-      '@putao520/next-auth/prisma-adapter': link:../../packages/adapter-prisma
       '@supabase/supabase-js': 2.0.5
       faunadb: 4.6.0
       next: 13.0.6_biqbaboplfbrettd7655fr4n2y

@@ -1,5 +1,5 @@
 {
-  "name": "@putao520/next-auth/prisma-adapter",
+  "name": "@putao520-next-auth/prisma-adapter",
   "version": "1.0.5",
   "description": "Prisma adapter for next-auth.",
   "homepage": "https://next-auth.js.org",
