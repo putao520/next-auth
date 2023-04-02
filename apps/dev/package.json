@@ -17,7 +17,7 @@
     "@alicloud/dysmsapi20170525": "^2.0.23",
     "@alicloud/openapi-client": "^0.4.5",
     "@next-auth/fauna-adapter": "workspace:*",
-    "@putao520-next-auth/prisma-adapter": "workspace:*",
+    "@putao520/next-auth_prisma-adapter": "workspace:*",
     "@next-auth/supabase-adapter": "workspace:*",
     "@next-auth/typeorm-legacy-adapter": "workspace:*",
     "@prisma/client": "^3",
