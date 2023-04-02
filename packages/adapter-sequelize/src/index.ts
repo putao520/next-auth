@@ -4,7 +4,7 @@ import type {
   AdapterAccount,
   AdapterSession,
   VerificationToken,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 import { Sequelize, Model, ModelCtor } from "sequelize"
 import * as defaultModels from "./models"
 

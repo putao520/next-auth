@@ -1,5 +1,5 @@
 {
-  "name": "next-auth",
+  "name": "@putao520/next-auth",
   "version": "4.20.1",
   "description": "Authentication for Next.js",
   "homepage": "https://next-auth.js.org",

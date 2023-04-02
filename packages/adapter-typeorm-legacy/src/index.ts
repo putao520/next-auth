@@ -3,7 +3,7 @@ import type {
   AdapterUser,
   AdapterAccount,
   AdapterSession,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 import { DataSourceOptions, DataSource, EntityManager } from "typeorm"
 import * as defaultEntities from "./entities"
 import { parseDataSourceConfig, updateConnectionEntities } from "./utils"

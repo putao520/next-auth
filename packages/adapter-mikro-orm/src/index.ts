@@ -4,7 +4,7 @@ import type {
   Options as ORMOptions,
 } from "@mikro-orm/core"
 
-import type { Adapter } from "next-auth/adapters"
+import type { Adapter } from "@putao520/next-auth/adapters"
 
 import { MikroORM, wrap } from "@mikro-orm/core"
 

@@ -32,7 +32,7 @@
   "license": "ISC",
   "peerDependencies": {
     "@aws-sdk/lib-dynamodb": "^3.36.1",
-    "next-auth": "^4"
+    "@putao520/next-auth": "^4"
   },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.36.1",
@@ -41,6 +41,6 @@
     "@next-auth/tsconfig": "workspace:*",
     "@shelf/jest-dynamodb": "^2.1.0",
     "jest": "^27.4.3",
-    "next-auth": "workspace:*"
+    "@putao520/next-auth": "workspace:*"
   }
 }

@@ -33,7 +33,7 @@
   },
   "peerDependencies": {
     "firebase": "^9.7.0",
-    "next-auth": "^4"
+    "@putao520/next-auth": "^4"
   },
   "devDependencies": {
     "@next-auth/adapter-test": "workspace:*",
@@ -41,6 +41,6 @@
     "firebase": "^9.14.0",
     "firebase-tools": "^11.16.1",
     "jest": "^27.4.3",
-    "next-auth": "workspace:*"
+    "@putao520/next-auth": "workspace:*"
   }
 }

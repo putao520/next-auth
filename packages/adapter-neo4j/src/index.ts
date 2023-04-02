@@ -1,5 +1,5 @@
 import type { Session } from "neo4j-driver"
-import type { Adapter } from "next-auth/adapters"
+import type { Adapter } from "@putao520/next-auth/adapters"
 import { v4 as uuid } from "uuid"
 
 import { client, format } from "./utils"

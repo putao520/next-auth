@@ -44,7 +44,7 @@
     "jest": "^27.4.3",
     "mssql": "^7.2.1",
     "mysql": "^2.18.1",
-    "next-auth": "workspace:*",
+    "@putao520/next-auth": "workspace:*",
     "pg": "^8.7.3",
     "sqlite3": "^5.0.8",
     "typeorm": "0.3.7",
@@ -54,7 +54,7 @@
   "peerDependencies": {
     "mssql": "^6.2.1 || 7",
     "mysql": "^2.18.1",
-    "next-auth": "^4",
+    "@putao520/next-auth": "^4",
     "pg": "^8.2.1",
     "sqlite3": "^5.0.2",
     "typeorm": "0.3.7"

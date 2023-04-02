@@ -1,4 +1,4 @@
-import type { Adapter } from "next-auth/adapters"
+import type { Adapter } from "@putao520/next-auth/adapters"
 
 import type { XataClient } from "./xata"
 

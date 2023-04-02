@@ -34,7 +34,7 @@
   ],
   "peerDependencies": {
     "neo4j-driver": "^4.0.0",
-    "next-auth": "^4"
+    "@putao520/next-auth": "^4"
   },
   "devDependencies": {
     "@next-auth/adapter-test": "workspace:*",
@@ -42,7 +42,7 @@
     "@types/uuid": "^8.3.3",
     "jest": "^27.4.3",
     "neo4j-driver": "^4.4.0",
-    "next-auth": "workspace:*"
+    "@putao520/next-auth": "workspace:*"
   },
   "dependencies": {
     "uuid": "^8.3.2"

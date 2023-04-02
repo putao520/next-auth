@@ -1,6 +1,6 @@
-import type { Adapter } from "next-auth/adapters"
+import type { Adapter } from "@putao520/next-auth/adapters"
 import { createHash, randomBytes } from "crypto"
-import { Profile } from "next-auth"
+import { Profile } from "@putao520/next-auth"
 import { ulid } from "ulid"
 
 type PouchdbDocument<T> = PouchDB.Core.ExistingDocument<{ data: T }>

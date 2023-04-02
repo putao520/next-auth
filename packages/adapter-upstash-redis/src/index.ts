@@ -4,7 +4,7 @@ import type {
   AdapterAccount,
   AdapterSession,
   VerificationToken,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 import type { Redis } from "@upstash/redis"
 
 import { v4 as uuid } from "uuid"

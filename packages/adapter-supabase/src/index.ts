@@ -5,7 +5,7 @@ import {
 	AdapterSession,
 	AdapterUser,
 	VerificationToken,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 
 function isDate(date: any) {
 	return (

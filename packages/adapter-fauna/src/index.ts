@@ -28,7 +28,7 @@ import {
   AdapterSession,
   AdapterUser,
   VerificationToken,
-} from "next-auth/adapters"
+} from "@putao520/next-auth/adapters"
 
 export const collections = {
   Users: Collection("users"),

@@ -33,7 +33,7 @@
   ],
   "peerDependencies": {
     "@mikro-orm/core": "^5",
-    "next-auth": "^4"
+    "@putao520/next-auth": "^4"
   },
   "devDependencies": {
     "@mikro-orm/core": "^5",
@@ -42,7 +42,7 @@
     "@next-auth/tsconfig": "workspace:*",
     "@types/uuid": ">=8",
     "jest": "^29",
-    "next-auth": "workspace:*"
+    "@putao520/next-auth": "workspace:*"
   },
   "dependencies": {
     "uuid": "^9"
