@@ -19,7 +19,7 @@ export function XataAdapter(client: XataClient): Adapter {
 	async getUserByPhoneNumber(phoneNumber) {
 		const user = await client.db.nextauth_users.filter({ phoneNumber }).getFirst()
 		return user ?? null
-	},
+	  },
     async getUserByAccount({ providerAccountId, provider }) {
       const result = await client.db.nextauth_users_accounts
         .select(["user.*"])

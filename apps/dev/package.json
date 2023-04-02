@@ -14,6 +14,8 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/openapi-client": "^0.4.5",
     "@next-auth/fauna-adapter": "workspace:*",
     "@next-auth/prisma-adapter": "workspace:*",
     "@next-auth/supabase-adapter": "workspace:*",
@@ -33,7 +35,7 @@
     "@types/react-dom": "^18.0.6",
     "fake-smtp-server": "^0.8.0",
     "pg": "^8.7.3",
-    "prisma": "^3",
+    "prisma": "^3.15.2",
     "sqlite3": "^5.0.8",
     "typeorm": "0.3.7"
   }

@@ -40,13 +40,13 @@ export type SMSUserConfig = Partial<Omit<SMSConfig, "options">>
 
 export type SMSProvider = (options: SMSUserConfig) => SMSConfig
 
-export type SMSProviderType = "ali"
+export type SMSProviderType = "sms"
 
 export default function SMS(options: SMSUserConfig): SMSConfig {
 	return {
 		id: "sms",
 		type: "sms",
-		name: "ali",
+		name: "sms",
 		accessId: "",
 		accessKeySecret: "",
 		templateCode: "",
@@ -60,11 +60,10 @@ export default function SMS(options: SMSUserConfig): SMSConfig {
 				phoneNumbers: params.phoneNumber,
 				signName: provider.signName,
 				templateCode: provider.templateCode,
-				templateParam: {"code": token},
+				templateParam: JSON.stringify({code: token}),
 			}))
-			const failed = result.rejected.concat(result.pending).filter(Boolean)
-			if (failed.length) {
-				throw new Error(`SMS (${failed.join(", ")}) could not be sent`)
+			if( result.body.code !== 'OK' ) {
+				throw new Error(`短信发送失败,原因[${result.body.message}]`)
 			}
 		},
 		options,
@@ -97,8 +96,8 @@ function createClient(accessKeyId: string,accessKeySecret: string): Dysmsapi2017
 // 生成6位数字随机数
 function _generateVerificationToken() {
 	let code = ""
-	for(let i =0; i < 6; i++){
-		code += Math.round(Math.random() * 10).toString()
+	for(let i =1; i < 6; i++){
+		code += Math.round( (Math.random() * 10) % 10 ).toString()
 	}
 	return code
 }

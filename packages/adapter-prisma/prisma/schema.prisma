@@ -12,7 +12,7 @@ model User {
     name          String?
     email         String    @unique
     emailVerified DateTime?
-    phoneNumber   String    @unique
+    phoneNumber   String   @unique
     smsVerified   DateTime?
     image         String?
     accounts      Account[]

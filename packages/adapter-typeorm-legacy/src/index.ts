@@ -95,7 +95,7 @@ export function TypeORMLegacyAdapter(
 		const user = await m.findOne("UserEntity", { where: { phoneNumber } })
 		if (!user) return null
 		return { ...user }
-	},
+	  },
     async getUserByAccount(provider_providerAccountId) {
       const m = await getManager(c)
       const account = await m.findOne<AdapterAccount & { user: AdapterUser }>(

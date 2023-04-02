@@ -1,11 +1,12 @@
 import {
-	MissingAdapter,
-	MissingAPIRoute,
-	MissingAuthorize,
-	MissingSecret,
-	UnsupportedStrategy,
-	InvalidCallbackUrl,
-	MissingAdapterMethods,
+  MissingEmailAdapter,
+  MissingSMSAdapter,
+  MissingAPIRoute,
+  MissingAuthorize,
+  MissingSecret,
+  UnsupportedStrategy,
+  InvalidCallbackUrl,
+  MissingAdapterMethods,
 } from "../errors"
 import parseUrl from "../../utils/parse-url"
 import { defaultCookies } from "./cookie"
@@ -15,22 +16,23 @@ import type { WarningCode } from "../../utils/logger"
 import type { AuthOptions } from "../types"
 
 type ConfigError =
-	| MissingAPIRoute
-	| MissingSecret
-	| UnsupportedStrategy
-	| MissingAuthorize
-	| MissingAdapter
+  | MissingAPIRoute
+  | MissingSecret
+  | UnsupportedStrategy
+  | MissingAuthorize
+  | MissingEmailAdapter
+  | MissingSMSAdapter
 
 let warned = false
 
 function isValidHttpUrl(url: string, baseUrl: string) {
-	try {
-		return /^https?:/.test(
-			new URL(url, url.startsWith("/") ? baseUrl : undefined).protocol
-		)
-	} catch {
-		return false
-	}
+  try {
+    return /^https?:/.test(
+      new URL(url, url.startsWith("/") ? baseUrl : undefined).protocol
+    )
+  } catch {
+    return false
+  }
 }
 
 /**
@@ -40,130 +42,130 @@ function isValidHttpUrl(url: string, baseUrl: string) {
  * REVIEW: Make some of these and corresponding docs less Next.js specific?
  */
 export function assertConfig(params: {
-	options: AuthOptions
-	req: RequestInternal
+  options: AuthOptions
+  req: RequestInternal
 }): ConfigError | WarningCode[] {
-	const { options, req } = params
+  const { options, req } = params
 
-	const warnings: WarningCode[] = []
+  const warnings: WarningCode[] = []
 
-	if (!warned) {
-		if (!req.host) warnings.push("NEXTAUTH_URL")
+  if (!warned) {
+    if (!req.host) warnings.push("NEXTAUTH_URL")
 
-		// TODO: Make this throw an error in next major. This will also get rid of `NODE_ENV`
-		if (!options.secret && process.env.NODE_ENV !== "production")
-			warnings.push("NO_SECRET")
+    // TODO: Make this throw an error in next major. This will also get rid of `NODE_ENV`
+    if (!options.secret && process.env.NODE_ENV !== "production")
+      warnings.push("NO_SECRET")
 
-		if (options.debug) warnings.push("DEBUG_ENABLED")
-	}
+    if (options.debug) warnings.push("DEBUG_ENABLED")
+  }
 
-	if (!options.secret && process.env.NODE_ENV === "production") {
-		return new MissingSecret("Please define a `secret` in production.")
-	}
+  if (!options.secret && process.env.NODE_ENV === "production") {
+    return new MissingSecret("Please define a `secret` in production.")
+  }
 
-	// req.query isn't defined when asserting `getServerSession` for example
-	if (!req.query?.nextauth && !req.action) {
-		return new MissingAPIRoute(
-			"Cannot find [...nextauth].{js,ts} in `/pages/api/auth`. Make sure the filename is written correctly."
-		)
-	}
+  // req.query isn't defined when asserting `getServerSession` for example
+  if (!req.query?.nextauth && !req.action) {
+    return new MissingAPIRoute(
+      "Cannot find [...nextauth].{js,ts} in `/pages/api/auth`. Make sure the filename is written correctly."
+    )
+  }
 
-	const callbackUrlParam = req.query?.callbackUrl as string | undefined
+  const callbackUrlParam = req.query?.callbackUrl as string | undefined
 
-	const url = parseUrl(req.host)
+  const url = parseUrl(req.host)
 
-	if (callbackUrlParam && !isValidHttpUrl(callbackUrlParam, url.base)) {
-		return new InvalidCallbackUrl(
-			`Invalid callback URL. Received: ${callbackUrlParam}`
-		)
-	}
+  if (callbackUrlParam && !isValidHttpUrl(callbackUrlParam, url.base)) {
+    return new InvalidCallbackUrl(
+      `Invalid callback URL. Received: ${callbackUrlParam}`
+    )
+  }
 
-	const { callbackUrl: defaultCallbackUrl } = defaultCookies(
-		options.useSecureCookies ?? url.base.startsWith("https://")
-	)
-	const callbackUrlCookie =
-		req.cookies?.[options.cookies?.callbackUrl?.name ?? defaultCallbackUrl.name]
+  const { callbackUrl: defaultCallbackUrl } = defaultCookies(
+    options.useSecureCookies ?? url.base.startsWith("https://")
+  )
+  const callbackUrlCookie =
+    req.cookies?.[options.cookies?.callbackUrl?.name ?? defaultCallbackUrl.name]
 
-	if (callbackUrlCookie && !isValidHttpUrl(callbackUrlCookie, url.base)) {
-		return new InvalidCallbackUrl(
-			`Invalid callback URL. Received: ${callbackUrlCookie}`
-		)
-	}
+  if (callbackUrlCookie && !isValidHttpUrl(callbackUrlCookie, url.base)) {
+    return new InvalidCallbackUrl(
+      `Invalid callback URL. Received: ${callbackUrlCookie}`
+    )
+  }
 
-	let hasCredentials, hasEmail, hasSMS
-	let hasTwitterOAuth2
+  let hasCredentials, hasEmail, hasSMS
+  let hasTwitterOAuth2
 
-	for (const provider of options.providers) {
-		if (provider.type === "credentials") hasCredentials = true
-		else if (provider.type === "email") hasEmail = true
-		else if (provider.type === "sms") hasSMS = true
-		else if (provider.id === "twitter" && provider.version === "2.0")
-			hasTwitterOAuth2 = true
-	}
+  for (const provider of options.providers) {
+    if (provider.type === "credentials") hasCredentials = true
+    else if (provider.type === "email") hasEmail = true
+    else if (provider.type === "sms") hasSMS = true
+    else if (provider.id === "twitter" && provider.version === "2.0")
+      hasTwitterOAuth2 = true
+  }
 
-	if (hasCredentials) {
-		const dbStrategy = options.session?.strategy === "database"
-		const onlyCredentials = !options.providers.some(
-			(p) => p.type !== "credentials"
-		)
-		if (dbStrategy && onlyCredentials) {
-			return new UnsupportedStrategy(
-				"Signin in with credentials only supported if JWT strategy is enabled"
-			)
-		}
+  if (hasCredentials) {
+    const dbStrategy = options.session?.strategy === "database"
+    const onlyCredentials = !options.providers.some(
+      (p) => p.type !== "credentials"
+    )
+    if (dbStrategy && onlyCredentials) {
+      return new UnsupportedStrategy(
+        "Signin in with credentials only supported if JWT strategy is enabled"
+      )
+    }
 
-		const credentialsNoAuthorize = options.providers.some(
-			(p) => p.type === "credentials" && !p.authorize
-		)
-		if (credentialsNoAuthorize) {
-			return new MissingAuthorize(
-				"Must define an authorize() handler to use credentials authentication provider"
-			)
-		}
-	}
+    const credentialsNoAuthorize = options.providers.some(
+      (p) => p.type === "credentials" && !p.authorize
+    )
+    if (credentialsNoAuthorize) {
+      return new MissingAuthorize(
+        "Must define an authorize() handler to use credentials authentication provider"
+      )
+    }
+  }
 
-	if (hasEmail) {
-		const { adapter } = options
-		if (!adapter) {
-			return new MissingAdapter("E-mail login requires an adapter.")
-		}
+  if (hasEmail) {
+    const { adapter } = options
+    if (!adapter) {
+      return new MissingEmailAdapter("E-mail login requires an adapter.")
+    }
 
-		const missingMethods = [
-			"createVerificationToken",
-			"useVerificationToken",
-			"getUserByEmail",
-		].filter((method) => !adapter[method])
+    const missingMethods = [
+      "createVerificationToken",
+      "useVerificationToken",
+      "getUserByEmail",
+    ].filter((method) => !adapter[method])
 
-		if (missingMethods.length) {
-			return new MissingAdapterMethods(
-				`Required adapter methods were missing: ${missingMethods.join(", ")}`
-			)
-		}
-	}
+    if (missingMethods.length) {
+      return new MissingAdapterMethods(
+        `Required adapter methods were missing: ${missingMethods.join(", ")}`
+      )
+    }
+  }
 
-	if (hasSMS) {
-		const { adapter } = options
-		if (!adapter) {
-			return new MissingAdapter("SMS login requires an adapter.")
-		}
+  if (hasSMS) {
+    const { adapter } = options
+    if (!adapter) {
+      return new MissingSMSAdapter("Sms login requires an adapter.")
+    }
 
-		const missingMethods = [
-			"createVerificationToken",
-			"useVerificationToken",
-			"getUserByPhoneNumber",
-		].filter((method) => !adapter[method])
+    const missingMethods = [
+      "createVerificationToken",
+      "useVerificationToken",
+      "getUserByPhoneNumber",
+    ].filter((method) => !adapter[method])
 
-		if (missingMethods.length) {
-			return new MissingAdapterMethods(
-				`Required adapter methods were missing: ${missingMethods.join(", ")}`
-			)
-		}
-	}
+    if (missingMethods.length) {
+      return new MissingAdapterMethods(
+        `Required adapter methods were missing: ${missingMethods.join(", ")}`
+      )
+    }
+  }
 
-	if (!warned) {
-		if (hasTwitterOAuth2) warnings.push("TWITTER_OAUTH_2_BETA")
-		warned = true
-	}
+  if (!warned) {
+    if (hasTwitterOAuth2) warnings.push("TWITTER_OAUTH_2_BETA")
+    warned = true
+  }
 
-	return warnings
+  return warnings
 }

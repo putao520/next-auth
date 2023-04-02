@@ -11,9 +11,11 @@ export type SignInErrorTypes =
   | "OAuthCallback"
   | "OAuthCreateAccount"
   | "EmailCreateAccount"
+  | "SMSCreateAccount"
   | "Callback"
   | "OAuthAccountNotLinked"
   | "EmailSignin"
+  | "SMSSignin"
   | "CredentialsSignin"
   | "SessionRequired"
   | "default"
@@ -23,6 +25,7 @@ export interface SignInServerPageParams {
   providers: InternalProvider[]
   callbackUrl: string
   email: string
+  phoneNumber: string
   error: SignInErrorTypes
   theme: Theme
 }
@@ -34,11 +37,12 @@ export default function SigninPage(props: SignInServerPageParams) {
     callbackUrl,
     theme,
     email,
+	phoneNumber,
     error: errorType,
   } = props
   // We only want to render providers
   const providersToRender = providers.filter((provider) => {
-    if (provider.type === "oauth" || provider.type === "email") {
+    if (provider.type === "oauth" || provider.type === "email"|| provider.type === "sms") {
       // Always render oauth and email type providers
       return true
     } else if (provider.type === "credentials" && provider.credentials) {
@@ -69,10 +73,12 @@ export default function SigninPage(props: SignInServerPageParams) {
     OAuthCallback: "Try signing in with a different account.",
     OAuthCreateAccount: "Try signing in with a different account.",
     EmailCreateAccount: "Try signing in with a different account.",
+	SMSCreateAccount: "Try signing in with a different account.",
     Callback: "Try signing in with a different account.",
     OAuthAccountNotLinked:
       "To confirm your identity, sign in with the same account you used originally.",
     EmailSignin: "The e-mail could not be sent.",
+	SMSSignin: "The sms could not be sent.",
     CredentialsSignin:
       "Sign in failed. Check the details you provided are correct.",
     SessionRequired: "Please sign in to access this page.",
@@ -160,7 +166,7 @@ export default function SigninPage(props: SignInServerPageParams) {
                 </button>
               </form>
             )}
-            {(provider.type === "email" || provider.type === "credentials") &&
+            {(provider.type === "email" || provider.type === "sms" || provider.type === "credentials") &&
               i > 0 &&
               providersToRender[i - 1].type !== "email" &&
               providersToRender[i - 1].type !== "credentials" && <hr />}
@@ -183,6 +189,27 @@ export default function SigninPage(props: SignInServerPageParams) {
                   required
                 />
                 <button id="submitButton" type="submit">Sign in with {provider.name}</button>
+              </form>
+            )}
+			{provider.type === "sms" && (
+              <form action={provider.signinUrl} method="POST">
+                <input type="hidden" name="csrfToken" value={csrfToken} />
+                <label
+                  className="section-header"
+                  htmlFor={`input-phone-for-${provider.id}-provider`}
+                >
+                  PhoneNumber
+                </label>
+                <input
+                  id={`input-phone-for-${provider.id}-provider`}
+                  autoFocus
+                  type="phone"
+                  name="phone"
+                  value={phoneNumber}
+                  placeholder="13000000000"
+                  required
+                />
+                <button type="submit">Sign in with {provider.name}</button>
               </form>
             )}
             {provider.type === "credentials" && (
@@ -212,7 +239,7 @@ export default function SigninPage(props: SignInServerPageParams) {
                 <button type="submit">Sign in with {provider.name}</button>
               </form>
             )}
-            {(provider.type === "email" || provider.type === "credentials") &&
+            {(provider.type === "email" || provider.type === "sms" || provider.type === "credentials") &&
               i + 1 < providersToRender.length && <hr />}
           </div>
         ))}

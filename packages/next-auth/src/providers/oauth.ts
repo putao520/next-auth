@@ -109,7 +109,6 @@ export interface OAuthConfig<P> extends CommonProviderOptions, PartialIssuer {
    * [Authorization Server Metadata](https://datatracker.ietf.org/doc/html/rfc8414#section-3)
    */
   wellKnown?: string
-  jwks_endpoint?: string
   /**
    * The login process will be initiated by sending the user to this URL.
    *
@@ -158,7 +157,14 @@ export interface OAuthConfig<P> extends CommonProviderOptions, PartialIssuer {
   profileUrl?: string
   encoding?: string
   allowDangerousEmailAccountLinking?: boolean
-  allowDangerousPhoneNumberAccountLinking?: boolean
+}
+
+/** @internal */
+export interface OAuthConfigInternal<P>
+  extends Omit<OAuthConfig<P>, "authorization" | "token" | "userinfo"> {
+  authorization?: AuthorizationEndpointHandler
+  token?: TokenEndpointHandler
+  userinfo?: UserinfoEndpointHandler
 }
 
 export type OAuthUserConfig<P> = Omit<

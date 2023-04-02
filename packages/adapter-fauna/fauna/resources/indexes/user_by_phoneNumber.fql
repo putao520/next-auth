@@ -1,0 +1,6 @@
+CreateIndex({
+  name: "user_by_phoneNumber",
+  source: Collection("users"),
+  unique: true,
+  terms: [{ field: ["data", "phoneNumber"] }],
+})

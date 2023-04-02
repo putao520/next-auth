@@ -105,7 +105,9 @@ export default async function signin(params: {
 		const normalizer: (identifier: string) => string =
 			provider.normalizeIdentifier ??
 			((identifier) => {
-				return identifier
+				var re = /^1[3,4,5,6,7,8,9][0-9]{9}$/;
+				var result = re.test(identifier); 
+				return result ? identifier : ""
 			})
 
 		try {

@@ -55,7 +55,7 @@ export function runBasicTests(options: TestOptions) {
 
   let user: any = {
     email: "fill@murray.com",
-	phoneNumber: "13333330000",
+    phoneNumber: "00000000000",
     image: "https://www.fillmurray.com/460/300",
     name: "Fill Murray",
     emailVerified: new Date(),
@@ -125,7 +125,7 @@ export function runBasicTests(options: TestOptions) {
   })
 
   test("getUserByPhoneNumber", async () => {
-    expect(await adapter.getUserByPhoneNumber("non-existent-phoneNumber")).toBeNull()
+    expect(await adapter.getUserByPhoneNumber("non-existent-phone-number")).toBeNull()
     expect(await adapter.getUserByPhoneNumber(user.phoneNumber)).toEqual(user)
   })
 

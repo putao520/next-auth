@@ -35,12 +35,15 @@ import Vk from "next-auth/providers/vk"
 import Wikimedia from "next-auth/providers/wikimedia"
 import WorkOS from "next-auth/providers/workos"
 
+// // ali sms
+import AliSMS from "next-auth/providers/sms"
+
 // // Prisma
-// import { PrismaClient } from "@prisma/client"
-// import { PrismaAdapter } from "@next-auth/prisma-adapter"
-// const client = globalThis.prisma || new PrismaClient()
-// if (process.env.NODE_ENV !== "production") globalThis.prisma = client
-// const adapter = PrismaAdapter(client)
+import { PrismaClient } from "@prisma/client"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+const client = globalThis.prisma || new PrismaClient()
+if (process.env.NODE_ENV !== "production") globalThis.prisma = client
+const adapter = PrismaAdapter(client)
 
 // // Fauna
 // import { Client as FaunaClient } from "faunadb"
@@ -67,7 +70,7 @@ import WorkOS from "next-auth/providers/workos"
 // })
 
 export const authOptions: NextAuthOptions = {
-  // adapter,
+  adapter,
   // debug: process.env.NODE_ENV !== "production",
   theme: {
     logo: "https://next-auth.js.org/img/logo/logo-sm.png",
@@ -78,7 +81,7 @@ export const authOptions: NextAuthOptions = {
       credentials: { password: { label: "Password", type: "password" } },
       async authorize(credentials) {
         if (credentials.password !== "pw") return null
-        return { name: "Fill Murray", email: "bill@fillmurray.com", image: "https://www.fillmurray.com/64/64", id: "1", foo: "" }
+        return { name: "Fill Murray", email: "bill@fillmurray.com", phoneNumber:"15215625507", image: "https://www.fillmurray.com/64/64", id: "1", foo: "" }
       },
     }),
     Apple({ clientId: process.env.APPLE_ID, clientSecret: process.env.APPLE_SECRET }),
@@ -117,6 +120,12 @@ export const authOptions: NextAuthOptions = {
     Vk({ clientId: process.env.VK_ID, clientSecret: process.env.VK_SECRET }),
     Wikimedia({ clientId: process.env.WIKIMEDIA_ID, clientSecret: process.env.WIKIMEDIA_SECRET }),
     WorkOS({ clientId: process.env.WORKOS_ID, clientSecret: process.env.WORKOS_SECRET }),
+	AliSMS({
+		accessId: process.env.ALI_SMS_ACCESS_ID,
+		accessKeySecret: process.env.ALI_SMS_ACCESS_KEY_SECRET,
+		templateCode: process.env.ALI_SMS_VERIFICATION_TEMPLATE_CODE,
+		signName: process.env.ALI_SMS_SIGN_NAME,
+	})
   ],
 }
 

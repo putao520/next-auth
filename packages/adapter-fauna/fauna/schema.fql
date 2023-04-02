@@ -31,6 +31,12 @@ Do(
     terms: [{ field: ["data", "email"] }],
   }),
   CreateIndex({
+    name: "user_by_phoneNumber",
+    source: Collection("users"),
+    unique: true,
+    terms: [{ field: ["data", "phoneNumber"] }],
+  }),
+  CreateIndex({
     name: "account_by_provider_and_provider_account_id",
     source: Collection("accounts"),
     unique: true,

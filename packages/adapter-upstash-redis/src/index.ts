@@ -137,7 +137,7 @@ export function UpstashRedisAdapter(
 		  return null
 		}
 		return await getUser(userId)
-	},
+	  },
     async getUserByAccount(account) {
       const dbAccount = await getAccount(
         `${account.provider}:${account.providerAccountId}`

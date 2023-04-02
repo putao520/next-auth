@@ -48,7 +48,7 @@ export interface VerificationToken {
  * - `deleteSession`
  * - `updateUser`
  *
- * _(Required to support email / passwordless sign in)_
+ * _(Required to support email / passwordless / sms sign in)_
  *
  * - `createVerificationToken`
  * - `useVerificationToken`
@@ -88,7 +88,7 @@ export interface DefaultAdapter {
 	getUserByAccount: (
 		providerAccountId: Pick<AdapterAccount, "provider" | "providerAccountId">
 	) => Awaitable<AdapterUser | null>
-	updateUser: (user: Partial<AdapterUser> & Pick<AdapterUser, 'id'>) => Awaitable<AdapterUser>
+	updateUser: (user: Partial<AdapterUser>) => Awaitable<AdapterUser>
 	/** @todo Implement */
 	deleteUser?: (
 		userId: string

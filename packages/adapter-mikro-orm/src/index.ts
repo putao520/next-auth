@@ -103,7 +103,7 @@ export function MikroOrmAdapter<
 		if (!user) return null
   
 		return wrap(user).toObject()
-	},
+	  },
     async getUserByAccount(provider_providerAccountId) {
       const em = await getEM()
       const account = await em.findOne(AccountModel, {

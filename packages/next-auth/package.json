@@ -50,18 +50,20 @@
     "lint": "eslint src config tests"
   },
   "files": [
-    "client",
-    "core",
+    "lib",
     "css",
     "jwt",
-    "lib",
-    "next",
-    "providers",
     "react",
-    "src",
-    "utils",
-    "*.d.ts*",
-    "*.js"
+    "next",
+    "client",
+    "providers",
+    "core",
+    "index.d.ts",
+    "index.js",
+    "adapters.d.ts",
+    "middleware.d.ts",
+    "middleware.js",
+    "utils"
   ],
   "license": "ISC",
   "dependencies": {

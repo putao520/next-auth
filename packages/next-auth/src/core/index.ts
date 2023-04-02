@@ -94,7 +94,7 @@ export async function AuthHandler<
     // Bail out early if there's an error in the user config
     logger.error(assertionResult.code, assertionResult)
 
-    const htmlPages = ["signin", "signout", "error", "verify-request"]
+    const htmlPages = ["signin", "signout", "error", "verify-request", "verify"]
     if (!htmlPages.includes(req.action) || req.method !== "GET") {
       const message = `There is a problem with the server configuration. Check the server logs for more information.`
       return {
@@ -197,6 +197,12 @@ export async function AuthHandler<
           return { redirect: pages.verifyRequest, cookies }
         }
         return render.verifyRequest()
+	  case "verify":
+        return {
+			headers: [{ key: "Content-Type", value: "application/json" }],
+			body: { error: 'ok' } as any,
+			cookies,
+		}
       case "error":
         // These error messages are displayed in line on the sign in page
         if (
@@ -233,7 +239,7 @@ export async function AuthHandler<
   } else if (method === "POST") {
     switch (action) {
       case "signin":
-        // Verified CSRF Token required for all sign-in routes
+        // Verified CSRF Token required for all sign in routes
         if (options.csrfTokenVerified && options.provider) {
           const signin = await routes.signin({
             query: req.query,
@@ -276,7 +282,7 @@ export async function AuthHandler<
           return { ...callback, cookies }
         }
         break
-      case "_log": {
+      case "_log":
         if (authOptions.logger) {
           try {
             const { code, level, ...metadata } = req.body ?? {}
@@ -287,24 +293,6 @@ export async function AuthHandler<
           }
         }
         return {}
-      }
-      case "session": {
-        // Verified CSRF Token required for session updates
-        if (options.csrfTokenVerified) {
-          const session = await routes.session({
-            options,
-            sessionStore,
-            newSession: req.body?.data,
-            isUpdate: true,
-          })
-          if (session.cookies) cookies.push(...session.cookies)
-          return { ...session, cookies } as any
-        }
-
-        // If CSRF token is invalid, return a 400 status code
-        // we should not redirect to a page as this is an API route
-        return { status: 400, body: {} as any, cookies }
-      }
       default:
     }
   }

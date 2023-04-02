@@ -120,7 +120,7 @@ export default function SequelizeAdapter(
 		})
   
 		return userInstance?.get({ plain: true }) ?? null
-	  },
+	},
     async getUserByAccount({ provider, providerAccountId }) {
       await sync()
 

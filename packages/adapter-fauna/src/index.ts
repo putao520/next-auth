@@ -117,7 +117,7 @@ export function FaunaAdapter(f: FaunaClient): Adapter {
     SessionByToken,
     SessionsByUser,
     UserByEmail,
-	UserByPhoneNumber,
+    UserByPhoneNumber,
     VerificationTokenByIdentifierAndToken,
   } = indexes
   const { to, from } = format

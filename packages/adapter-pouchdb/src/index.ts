@@ -38,7 +38,7 @@ export const PouchDBAdapter: Adapter<
   PouchDB.Database,
   never,
   PouchdbUser,
-  Profile & { emailVerified?: Date } & { smsVerified?: Date },
+  Profile & { emailVerified?: Date, smsVerified?: Date },
   PouchdbSession
 > = (pouchdb) => {
   return {
@@ -118,9 +118,6 @@ export const PouchDBAdapter: Adapter<
           const res: PouchdbDocument<PouchdbUser> = await pouchdb.get(id)
           if (typeof res.data?.emailVerified === "string") {
             res.data.emailVerified = new Date(res.data.emailVerified)
-          }
-		  if (typeof res.data?.smsVerified === "string") {
-            res.data.smsVerified = new Date(res.data.smsVerified)
           }
 
           return res?.data ?? null

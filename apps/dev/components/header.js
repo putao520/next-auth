@@ -87,6 +87,9 @@ export default function Header() {
           <li className={styles.navItem}>
             <Link href="/email">Email</Link>
           </li>
+		  <li className={styles.navItem}>
+            <Link href="/sms">SMS</Link>
+          </li>
           <li className={styles.navItem}>
             <Link href="/middleware-protected">Middleware protected</Link>
           </li>

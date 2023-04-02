@@ -1,7 +1,11 @@
 import { merge } from "../../utils/merge"
 
-import type { InternalProvider, OAuthConfigInternal } from "../types"
-import type { OAuthConfig, Provider } from "../../providers"
+import type { InternalProvider } from "../types"
+import type {
+  OAuthConfigInternal,
+  OAuthConfig,
+  Provider,
+} from "../../providers"
 import type { InternalUrl } from "../../utils/parse-url"
 
 /**

@@ -1,6 +1,13 @@
-import { randomBytes } from "crypto"
-import { hashToken } from "../utils"
+import { randomInt } from "crypto"
 import type { InternalOptions } from "../../types"
+
+function getToken(){
+	let code = ""
+	for(let i = 0; i < 6; i++){
+		code += randomInt(1, 9)
+	}
+	return code
+}
 
 /**
  * Starts an e-mail login flow, by generating a token,
@@ -12,9 +19,7 @@ export default async function sms(
 ): Promise<string> {
 	const { url, adapter, provider, callbackUrl, theme } = options
 	// Generate token
-	const token =
-		(await provider.generateVerificationToken?.()) ??
-		randomBytes(32).toString("hex")
+	const token = (await provider.generateVerificationToken?.()) ?? getToken()
 
 	const ONE_DAY_IN_SECONDS = 300
 	const expires = new Date(
@@ -37,7 +42,7 @@ export default async function sms(
 		// Save in database
 		adapter.createVerificationToken({
 			identifier,
-			token: hashToken(token, options),
+			token,
 			expires,
 		}),
 	])

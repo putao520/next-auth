@@ -52,10 +52,15 @@ export class MissingAuthorize extends UnknownError {
   code = "CALLBACK_CREDENTIALS_HANDLER_ERROR"
 }
 
-export class MissingAdapter extends UnknownError {
-  name = "MissingAdapterError"
+export class MissingEmailAdapter extends UnknownError {
+  name = "MissingEmailAdapterError"
   code = "EMAIL_REQUIRES_ADAPTER_ERROR"
 }
+
+export class MissingSMSAdapter extends UnknownError {
+	name = "MissingSMSAdapterError"
+	code = "SMS_REQUIRES_ADAPTER_ERROR"
+  }
 
 export class MissingAdapterMethods extends UnknownError {
   name = "MissingAdapterMethodsError"
